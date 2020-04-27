@@ -1,0 +1,2 @@
+rootProject.name='Yum Coding Challenge'
+include ':app'

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    card_view:cardCornerRadius="@dimen/cardview_default_radius"
+    card_view:contentPaddingTop="20dp"
+    card_view:contentPaddingBottom="20dp"
+    card_view:contentPaddingLeft="32dp"
+    card_view:contentPaddingRight="32dp"
+    android:layout_margin="10dp"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8sp"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/stock_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="YUM"
+                android:paddingStart="0sp"
+                android:paddingEnd="8sp"
+                android:textStyle="bold"/>
+            <TextView
+                android:id="@+id/stock_name"
+                tools:text = "Yum! Brands, Inc."
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <TextView
+            android:id="@+id/stock_price"
+            tools:text="$200.00 (-30.00)"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/company_type"
+            tools:text="Food|Tech"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
+

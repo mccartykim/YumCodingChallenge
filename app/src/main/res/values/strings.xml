@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Yum Coding Challenge</string>
+    <string name="price_format">"$%.2f"</string>
+    <string name="stock_filter">Stock filter (write "tag:value" to search by tag)</string>
+    <string name="price_with_diff_format">$%.2f (%+.2f)</string>
+    <string name="tag_prefix">tag:</string>
+</resources>
