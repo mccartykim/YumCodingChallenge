@@ -77,8 +77,6 @@ object StockNetworkService: WebSocketListener() {
     val detailSubject: PublishSubject<Detail> = PublishSubject.create()
 
     private val okHttpClient = OkHttpClient.Builder().build()
-    // TODO fix the two lines below or hope YUM has a sense of humor
-    // Law of Demeter violation, please don't look!
 
     // Post details asynchronously to RxJava
     fun getDetails(id: CharSequence) {

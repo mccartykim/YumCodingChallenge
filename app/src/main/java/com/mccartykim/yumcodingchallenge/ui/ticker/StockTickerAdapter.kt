@@ -35,7 +35,7 @@ class StockAdapter(private val stockTickerBindingSubject: PublishSubject<StockTi
                 null -> price.text = res.getString(R.string.price_format, stock.price)
                 else -> price.text = res.getString(R.string.price_with_diff_format, stock.price, stock.priceDiff)
             }
-            companyType.text = stock.companyType.joinToString("|") // TODO this is really quick and dirty
+            companyType.text = stock.companyType.joinToString("|")
 
             setOnClickListener(stock.id)
         }
