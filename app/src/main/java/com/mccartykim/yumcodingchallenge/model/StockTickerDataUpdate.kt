@@ -17,7 +17,7 @@ class StockTickerDisplayListingDataStore(
         private val emptyDiffedStockUpdate =
             DiffedStockUpdate(
                 displayStocks = emptyList(),
-                diff = DiffUtil.calculateDiff(StockDiffCallback(emptyList(), emptyList()))
+                diff = DiffUtil.calculateDiff(StockTickerDiffCallback(emptyList(), emptyList()))
             )
     }
     @VisibleForTesting
@@ -52,7 +52,7 @@ class StockTickerDisplayListingDataStore(
         filteredStocks.scan(emptyDiffedStockUpdate) { lastUpdate, newFilteredStocks ->
             DiffedStockUpdate(
                 newFilteredStocks,
-                DiffUtil.calculateDiff(StockDiffCallback(oldList = lastUpdate.displayStocks, newList = newFilteredStocks))
+                DiffUtil.calculateDiff(StockTickerDiffCallback(oldList = lastUpdate.displayStocks, newList = newFilteredStocks))
             )
     }.skip(1) // first result is empty because of the initial value for scan
 }

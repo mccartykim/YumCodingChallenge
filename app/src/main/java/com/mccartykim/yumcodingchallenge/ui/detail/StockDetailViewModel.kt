@@ -1,4 +1,4 @@
-package com.mccartykim.yumcodingchallenge.ui.stockdetail
+package com.mccartykim.yumcodingchallenge.ui.detail
 
 import androidx.lifecycle.ViewModel
 import com.mccartykim.yumcodingchallenge.model.NetworkError

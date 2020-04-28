@@ -1,4 +1,4 @@
-package com.mccartykim.yumcodingchallenge.ui.main
+package com.mccartykim.yumcodingchallenge.ui.ticker
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -10,34 +10,34 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStoreOwner
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mccartykim.yumcodingchallenge.R
-import com.mccartykim.yumcodingchallenge.databinding.MainFragmentBinding
-import com.mccartykim.yumcodingchallenge.ui.stockdetail.StockDetailFragment
+import com.mccartykim.yumcodingchallenge.databinding.StockTickerFragmentBinding
+import com.mccartykim.yumcodingchallenge.ui.detail.StockDetailFragment
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 
-class MainFragment: Fragment() {
+class StockTickerFragment: Fragment() {
 
     companion object {
-        fun newInstance() = MainFragment()
+        fun newInstance() = StockTickerFragment()
         const val QUERY_KEY = "QUERY"
     }
 
-    private lateinit var viewModel: MainViewModel
-    private lateinit var bind: MainFragmentBinding
+    private lateinit var viewModel: StockTickerViewModel
+    private lateinit var bind: StockTickerFragmentBinding
     private lateinit var rvAdapter: StockAdapter
 
     private val disposable = CompositeDisposable()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
-        bind = MainFragmentBinding.inflate(inflater, container, false)
+        bind = StockTickerFragmentBinding.inflate(inflater, container, false)
         return bind.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         val loadQuery = savedInstanceState?.getString(QUERY_KEY)?:""
-        viewModel = ViewModelProvider(this as ViewModelStoreOwner).get(MainViewModel::class.java)
+        viewModel = ViewModelProvider(this as ViewModelStoreOwner).get(StockTickerViewModel::class.java)
 
         rvAdapter = StockAdapter(viewModel.stockTickerBindingSubject)
         bind.stockTickerRv.apply {

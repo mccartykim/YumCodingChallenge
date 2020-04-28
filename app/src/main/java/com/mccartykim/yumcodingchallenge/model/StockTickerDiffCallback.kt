@@ -2,7 +2,7 @@ package com.mccartykim.yumcodingchallenge.model
 
 import androidx.recyclerview.widget.DiffUtil
 
-class StockDiffCallback(val oldList: List<StockListing>, val newList: List<StockListing>): DiffUtil.Callback() {
+class StockTickerDiffCallback(val oldList: List<StockListing>, val newList: List<StockListing>): DiffUtil.Callback() {
     override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
         oldList[oldItemPosition].id == newList[newItemPosition].id
 

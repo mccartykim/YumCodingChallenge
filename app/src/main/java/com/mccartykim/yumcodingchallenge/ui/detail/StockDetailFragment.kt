@@ -1,4 +1,4 @@
-package com.mccartykim.yumcodingchallenge.ui.stockdetail
+package com.mccartykim.yumcodingchallenge.ui.detail
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

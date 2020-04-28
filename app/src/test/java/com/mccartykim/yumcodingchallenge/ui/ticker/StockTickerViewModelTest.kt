@@ -1,19 +1,19 @@
-package com.mccartykim.yumcodingchallenge.ui.main
+package com.mccartykim.yumcodingchallenge.ui.ticker
 
 import com.mccartykim.yumcodingchallenge.model.StockListing
-import com.mccartykim.yumcodingchallenge.ui.main.MainViewModel.Companion.chainPredicates
+import com.mccartykim.yumcodingchallenge.ui.ticker.StockTickerViewModel.Companion.chainPredicates
 import org.assertj.core.api.AssertionsForClassTypes.assertThat
 import org.junit.Test
 
 
-class MainViewModelTest {
+class StockTickerViewModelTest {
 
     private val fakeCompany = StockListing(id = "FOO", name = "Foo", price = 900.00, companyType = listOf("Tech", "Fake"), priceDiff = 15.00)
 
     @Test
     fun `filterStockByPrefix - Should create stock filter from strings based on prefix`() {
         // arrange
-        val model = MainViewModel()
+        val model = StockTickerViewModel()
 
         // act
         val prefix = model.filterStockByPrefix("F")
@@ -25,7 +25,7 @@ class MainViewModelTest {
     @Test
     fun `filterStockByPrefix - Should not match characters in the middle`() {
         // arrange
-        val model = MainViewModel()
+        val model = StockTickerViewModel()
 
         // act
         val prefix = model.filterStockByPrefix("O")
@@ -38,7 +38,7 @@ class MainViewModelTest {
     @Test
     fun `filterStockByCompanyType - Should match company tags`() {
         // arrange
-        val model = MainViewModel()
+        val model = StockTickerViewModel()
 
         // act
         val tag = model.filterStockByCompanyType("TECH")
@@ -50,7 +50,7 @@ class MainViewModelTest {
     @Test
     fun `filterStockByCompanyType - Should match company tags other than first position`() {
         // arrange
-        val model = MainViewModel()
+        val model = StockTickerViewModel()
 
         // act
         val tag = model.filterStockByCompanyType("FAKE")
@@ -62,7 +62,7 @@ class MainViewModelTest {
     @Test
     fun `filterStockByCompanyType - Should not match company tags not in the description`() {
         // arrange
-        val model = MainViewModel()
+        val model = StockTickerViewModel()
 
         // act
         val tag = model.filterStockByCompanyType("REAL")

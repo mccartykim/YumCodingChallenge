@@ -1,4 +1,4 @@
-package com.mccartykim.yumcodingchallenge.ui.main
+package com.mccartykim.yumcodingchallenge.ui.ticker
 
 import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.ViewModel
@@ -9,7 +9,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 import io.reactivex.rxjava3.subjects.PublishSubject
 import java.util.*
 
-class MainViewModel : ViewModel() {
+class StockTickerViewModel : ViewModel() {
     companion object {
         // queries are compared in uppercase, even though the app encourages the user to prefix "tag:"
         const val tag_prefix = "TAG:"

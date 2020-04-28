@@ -1,4 +1,4 @@
-package com.mccartykim.yumcodingchallenge.ui.main
+package com.mccartykim.yumcodingchallenge.ui.ticker
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

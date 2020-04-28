@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.stockdetail.StockDetailFragment">
+    tools:context=".ui.detail.StockDetailFragment">
     <LinearLayout
         android:id="@+id/success_layout"
         android:layout_width="match_parent"
