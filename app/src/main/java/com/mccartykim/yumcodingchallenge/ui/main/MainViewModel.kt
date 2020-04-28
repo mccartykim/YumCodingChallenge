@@ -12,6 +12,14 @@ import java.util.*
 class MainViewModel : ViewModel() {
     companion object {
         val tag_prefix = "tag:"
+
+        @VisibleForTesting
+        fun <T>Collection<(T) -> Boolean>.chainPredicates(): (T) -> Boolean {
+            return this.fold(
+                initial = {_: T -> true},
+                operation = { f, g -> { element:T -> f(element) && g(element) } }
+            )
+        }
     }
 
     val filterQueryBindingSubject: PublishSubject<String> = PublishSubject.create()
@@ -40,13 +48,13 @@ class MainViewModel : ViewModel() {
         )
     }
 
-
     // perhaps move adapter out of this, since it's sort of a view? Sort of a view model? Bleh
     val diffFilteredStocks by lazy {
         StockTickerDisplayListingDataStore(queryPredicateSubject).observeDiffFilteredStocks
     }
 
-    private val onChangedQueryConsumer: Consumer<String>
+    @VisibleForTesting
+    val onChangedQueryConsumer: Consumer<String>
         get() = Consumer<String> {
             val queryItems = it.toUpperCase(Locale.getDefault()).split(" ")
 
@@ -67,13 +75,6 @@ class MainViewModel : ViewModel() {
     fun filterStockByCompanyType(companyType: String): (StockListing) -> Boolean =
         { listing: StockListing -> listing.companyType.map { it.toUpperCase(Locale.getDefault()) }.contains(companyType) }
 
-    @VisibleForTesting
-    fun <T>Collection<(T) -> Boolean>.chainPredicates(): (T) -> Boolean {
-        return this.fold(
-            initial = {_: T -> true},
-            operation = { f, g -> { element:T -> f(element) && g(element) } }
-        )
-    }
 
     private fun stockTickerStartOrResume() {
         StockNetworkService.startTickerWebService()
