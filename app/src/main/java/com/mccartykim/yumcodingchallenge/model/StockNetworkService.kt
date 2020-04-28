@@ -18,7 +18,7 @@ object StockNetworkService: WebSocketListener() {
     private const val GOING_AWAY_WS_CODE = 1001
 
     val moshi = Moshi.Builder().build()
-    val observable: Subject<List<StockListing>> = BehaviorSubject.create()
+    val observable: Subject<List<StockListing>> = BehaviorSubject.createDefault(emptyList<StockListing>())
 
     val client = OkHttpClient.Builder()
         .pingInterval(PING_INTERVAL, TimeUnit.MILLISECONDS)
