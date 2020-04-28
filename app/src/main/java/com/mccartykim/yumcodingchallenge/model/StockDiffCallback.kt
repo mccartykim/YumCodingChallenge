@@ -1,4 +1,4 @@
-package com.mccartykim.yumcodingchallenge.ui.main
+package com.mccartykim.yumcodingchallenge.model
 
 import androidx.recyclerview.widget.DiffUtil
 import com.mccartykim.yumcodingchallenge.model.StockListing

@@ -7,8 +7,9 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.mccartykim.yumcodingchallenge.R
 import com.mccartykim.yumcodingchallenge.model.StockListing
+import io.reactivex.rxjava3.subjects.PublishSubject
 
-class StockAdapter(): RecyclerView.Adapter<StockListingViewHolder>() {
+class StockAdapter(val stockTickerBindingSubject: PublishSubject<StockTickerState>) : RecyclerView.Adapter<StockListingViewHolder>() {
     private var stockData: List<StockListing> = emptyList()
 
     fun updateStocks(newStocks: List<StockListing>, diff: DiffUtil.DiffResult) {
@@ -19,7 +20,7 @@ class StockAdapter(): RecyclerView.Adapter<StockListingViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StockListingViewHolder {
         val viewGroup = LayoutInflater.from(parent.context).inflate(R.layout.stock_listing_item, parent, false) as ViewGroup
 
-        return StockListingViewHolder(viewGroup)
+        return StockListingViewHolder(viewGroup, stockTickerBindingSubject)
     }
 
     override fun getItemCount(): Int = stockData.size
@@ -35,6 +36,8 @@ class StockAdapter(): RecyclerView.Adapter<StockListingViewHolder>() {
                 else -> price.text = res.getString(R.string.price_with_diff_format, stock.price, stock.priceDiff)
             }
             companyType.text = stock.companyType.joinToString("|") // TODO this is really quick and dirty
+
+            setOnClickListener(stock.id)
         }
     }
 
@@ -43,9 +46,13 @@ class StockAdapter(): RecyclerView.Adapter<StockListingViewHolder>() {
     }
 }
 
-class StockListingViewHolder(val viewGroup: ViewGroup): RecyclerView.ViewHolder(viewGroup) {
+class StockListingViewHolder(val viewGroup: ViewGroup, val stockTickerBindingSubject: PublishSubject<StockTickerState>): RecyclerView.ViewHolder(viewGroup) {
     val id: TextView by lazy { viewGroup.findViewById<TextView>(R.id.stock_id) }
     val name: TextView by lazy { viewGroup.findViewById<TextView>(R.id.stock_name) }
     val price: TextView by lazy { viewGroup.findViewById<TextView>(R.id.stock_price) }
     val companyType: TextView by lazy { viewGroup.findViewById<TextView>(R.id.company_type) }
+
+    fun setOnClickListener(id: String) {
+        viewGroup.setOnClickListener { stockTickerBindingSubject.onNext(LoadDetails(id)) }
+    }
 }
