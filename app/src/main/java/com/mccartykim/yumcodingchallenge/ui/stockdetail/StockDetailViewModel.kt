@@ -8,8 +8,8 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.subjects.BehaviorSubject
 
 class StockDetailViewModel : ViewModel() {
-    val detailSubject = BehaviorSubject.createDefault<DetailStatus>(Loading)
-    val disposables = CompositeDisposable()
+    val detailSubject: BehaviorSubject<DetailStatus> = BehaviorSubject.createDefault(Loading)
+    private val disposables = CompositeDisposable()
 
     init {
         disposables.addAll(StockNetworkService.detailSubject.subscribe {

@@ -9,7 +9,7 @@ import com.mccartykim.yumcodingchallenge.R
 import com.mccartykim.yumcodingchallenge.model.StockListing
 import io.reactivex.rxjava3.subjects.PublishSubject
 
-class StockAdapter(val stockTickerBindingSubject: PublishSubject<StockTickerState>) : RecyclerView.Adapter<StockListingViewHolder>() {
+class StockAdapter(private val stockTickerBindingSubject: PublishSubject<StockTickerState>) : RecyclerView.Adapter<StockListingViewHolder>() {
     private var stockData: List<StockListing> = emptyList()
 
     fun updateStocks(newStocks: List<StockListing>, diff: DiffUtil.DiffResult) {
@@ -46,7 +46,7 @@ class StockAdapter(val stockTickerBindingSubject: PublishSubject<StockTickerStat
     }
 }
 
-class StockListingViewHolder(val viewGroup: ViewGroup, val stockTickerBindingSubject: PublishSubject<StockTickerState>): RecyclerView.ViewHolder(viewGroup) {
+class StockListingViewHolder(val viewGroup: ViewGroup, private val stockTickerBindingSubject: PublishSubject<StockTickerState>): RecyclerView.ViewHolder(viewGroup) {
     val id: TextView by lazy { viewGroup.findViewById<TextView>(R.id.stock_id) }
     val name: TextView by lazy { viewGroup.findViewById<TextView>(R.id.stock_name) }
     val price: TextView by lazy { viewGroup.findViewById<TextView>(R.id.stock_price) }

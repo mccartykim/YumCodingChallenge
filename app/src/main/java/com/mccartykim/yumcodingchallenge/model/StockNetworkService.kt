@@ -17,22 +17,22 @@ object StockNetworkService: WebSocketListener() {
     private const val READ_TIMEOUT = 20000L
     private const val GOING_AWAY_WS_CODE = 1001
 
-    val moshi = Moshi.Builder().build()
+    val moshi: Moshi = Moshi.Builder().build()
     val observable: Subject<List<StockListing>> = BehaviorSubject.createDefault(emptyList<StockListing>())
 
-    val client = OkHttpClient.Builder()
+    private val wsClient = OkHttpClient.Builder()
         .pingInterval(PING_INTERVAL, TimeUnit.MILLISECONDS)
         .readTimeout(READ_TIMEOUT, TimeUnit.MILLISECONDS)
         .build()
 
-    val request = Request.Builder()
+    private val wsRequest = Request.Builder()
         .url("wss://interviews.yum.dev/ws/stocks")
         .build()
 
-    lateinit var ws: WebSocket
+    private lateinit var ws: WebSocket
 
     fun startTickerWebService() {
-        ws = client.newWebSocket(request, this)
+        ws = wsClient.newWebSocket(wsRequest, this)
         Log.d("WS", "connection started")
     }
 
@@ -42,17 +42,17 @@ object StockNetworkService: WebSocketListener() {
 
     fun shutdownTickerWebService() {
         Log.d("WS", "Shutdown called")
-        client.dispatcher.executorService.shutdown()
+        wsClient.dispatcher.executorService.shutdown()
     }
 
     override fun onOpen(webSocket: WebSocket, response: Response) {
         super.onOpen(webSocket, response)
-        Log.d("WS", "onopen called")
+        Log.d("WS", "onOpen called")
     }
 
     override fun onMessage(webSocket: WebSocket, text: String) {
         super.onMessage(webSocket, text)
-        Log.d("WS", "onmessage str called")
+        Log.d("WS", "onMessage str called")
         val type = Types.newParameterizedType(List::class.java, StockListing::class.java)
         val jsonAdapter = moshi.adapter<List<StockListing>>(type)
         val stockListings = jsonAdapter.fromJson(text)
@@ -67,16 +67,16 @@ object StockNetworkService: WebSocketListener() {
 
     override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {
         super.onFailure(webSocket, t, response)
-        Log.e("WS", "onfailure called")
+        Log.e("WS", "onFailure called")
         Log.e("WS", "${t.message}")
-        Log.e("WS", "${response?.body.toString()}")
+        Log.e("WS", response?.body.toString())
     }
 
-    val URL = "https://interviews.yum.dev/api/stocks/".toHttpUrl()
+    private val DETAIL_URL = "https://interviews.yum.dev/api/stocks/".toHttpUrl()
 
     val detailSubject: PublishSubject<Detail> = PublishSubject.create()
 
-    val okHttpClient = OkHttpClient.Builder().build()
+    private val okHttpClient = OkHttpClient.Builder().build()
     // TODO fix the two lines below or hope YUM has a sense of humor
     // Law of Demeter violation, please don't look!
 
@@ -110,5 +110,5 @@ object StockNetworkService: WebSocketListener() {
 
     // In production, I'd consider the factor of us using a string we've downloaded for this query,
     // although a WSS query on a server we own would stay safe so long as we've kept the server secure
-    private fun buildRequestDetailsUrl(id:CharSequence) = URL.newBuilder().addPathSegment(id.toString()).build()
+    private fun buildRequestDetailsUrl(id:CharSequence) = DETAIL_URL.newBuilder().addPathSegment(id.toString()).build()
 }

@@ -52,7 +52,7 @@ class MainFragment: Fragment() {
 
     val postQuery = { text: String -> viewModel.filterQueryBindingSubject.onNext(text)}
 
-    fun onShowDetails() {
+    private fun onShowDetails() {
         parentFragmentManager.beginTransaction()
             .replace(R.id.container, StockDetailFragment.newInstance())
             .addToBackStack(null)

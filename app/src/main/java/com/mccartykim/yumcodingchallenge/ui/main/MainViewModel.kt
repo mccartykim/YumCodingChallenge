@@ -11,12 +11,13 @@ import java.util.*
 
 class MainViewModel : ViewModel() {
     companion object {
-        val tag_prefix = "tag:"
+        // queries are compared in uppercase, even though the app encourages the user to prefix "tag:"
+        const val tag_prefix = "TAG:"
 
         @VisibleForTesting
         fun <T>Collection<(T) -> Boolean>.chainPredicates(): (T) -> Boolean {
             return this.fold(
-                initial = {_: T -> true},
+                initial = { element: T -> true },
                 operation = { f, g -> { element:T -> f(element) && g(element) } }
             )
         }
@@ -24,7 +25,7 @@ class MainViewModel : ViewModel() {
 
     val filterQueryBindingSubject: PublishSubject<String> = PublishSubject.create()
     val stockTickerBindingSubject: PublishSubject<StockTickerState> = PublishSubject.create()
-    val queryPredicateSubject: PublishSubject<(StockListing) -> Boolean> = PublishSubject.create()
+    private val queryPredicateSubject: PublishSubject<(StockListing) -> Boolean> = PublishSubject.create()
     val viewDetailsSubject: PublishSubject<Unit> = PublishSubject.create()
 
     private val disposable = CompositeDisposable().apply {
@@ -48,15 +49,14 @@ class MainViewModel : ViewModel() {
         )
     }
 
-    // perhaps move adapter out of this, since it's sort of a view? Sort of a view model? Bleh
     val diffFilteredStocks by lazy {
         StockTickerDisplayListingDataStore(queryPredicateSubject).observeDiffFilteredStocks
     }
 
     @VisibleForTesting
     val onChangedQueryConsumer: Consumer<String>
-        get() = Consumer<String> {
-            val queryItems = it.toUpperCase(Locale.getDefault()).split(" ")
+        get() = Consumer<String> { rawStr ->
+            val queryItems = rawStr.toUpperCase(Locale.getDefault()).split(" ")
 
             val stockPredicate = queryItems.map {
                 when {
@@ -69,11 +69,15 @@ class MainViewModel : ViewModel() {
 
     @VisibleForTesting
     fun filterStockByPrefix(prefix: String): (StockListing) -> Boolean =
-        { listing: StockListing -> listing.id.startsWith(prefix) }
+        { listing: StockListing ->
+            require(prefix == prefix.toUpperCase(Locale.getDefault()))
+            listing.id.startsWith(prefix) }
 
     @VisibleForTesting
     fun filterStockByCompanyType(companyType: String): (StockListing) -> Boolean =
-        { listing: StockListing -> listing.companyType.map { it.toUpperCase(Locale.getDefault()) }.contains(companyType) }
+        { listing: StockListing ->
+            require(companyType == companyType.toUpperCase(Locale.getDefault()))
+            listing.companyType.map { it.toUpperCase(Locale.getDefault()) }.contains(companyType) }
 
 
     private fun stockTickerStartOrResume() {

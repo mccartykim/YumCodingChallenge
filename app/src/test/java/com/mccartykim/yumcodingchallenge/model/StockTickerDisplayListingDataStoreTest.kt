@@ -8,20 +8,20 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 
 class StockTickerDisplayListingDataStoreTest {
-    val companiesOne = listOf(
+    private val companiesOne = listOf(
         StockListing(id = "FOO", name = "Foo", price = 900.00, companyType = listOf("Tech", "Fake"), priceDiff = null),
         StockListing(id = "TEST", name = "TEST", price = 900.00, companyType = listOf("Tech", "Fake"), priceDiff = null),
         StockListing(id = "MAR", name = "Mars", price = 900.00, companyType = listOf("Tech", "Fake"), priceDiff = null)
     )
 
-    val companiesTwo = listOf(
+    private val companiesTwo = listOf(
         StockListing(id = "FOO", name = "Foo", price = 1000.00, companyType = listOf("Tech", "Fake"), priceDiff = 15.00),
         StockListing(id = "TEST", name = "Test", price = 800.00, companyType = listOf("Tech", "Fake"), priceDiff = 15.00),
         StockListing(id = "MAR", name = "Mars", price = 500.00, companyType = listOf("Tech", "Fake"), priceDiff = 15.00)
     )
 
-    val predicateSubject = BehaviorSubject.create<(StockListing) -> Boolean>()
-    val stockListSubject = BehaviorSubject.createDefault(companiesOne)
+    private val predicateSubject: BehaviorSubject<(StockListing) -> Boolean> = BehaviorSubject.create()
+    private val stockListSubject: BehaviorSubject<List<StockListing>> = BehaviorSubject.createDefault(companiesOne)
 
     @Test
     fun `getObserveStockWithPriceDifferenceAndSort - should sort list by ids, and not add price diff from just one list`() {
@@ -124,7 +124,7 @@ class StockTickerDisplayListingDataStoreTest {
     @Test
     fun `getFilteredStocks applies most recent predicate to latest list`() {
         val dataStore = StockTickerDisplayListingDataStore(
-            Observable.fromIterable(listOf({ it: StockListing -> it.id.startsWith("F") })),
+            Observable.fromIterable(listOf { it: StockListing -> it.id.startsWith("F") }),
                 stockListSubject)
         val nopConsumer = spyk({ t: List<StockListing> -> /* nop */ })
         dataStore.filteredStocks.subscribe(nopConsumer)
@@ -166,7 +166,7 @@ class StockTickerDisplayListingDataStoreTest {
     @Test
     fun `getObserveDiffStocks should return at least as many results as stock updates going in`() {
         val dataStore = StockTickerDisplayListingDataStore(
-            Observable.fromIterable(listOf({ it: StockListing -> it.id.startsWith("F") })),
+            Observable.fromIterable(listOf { it: StockListing -> it.id.startsWith("F") }),
             stockListSubject)
         val nopConsumer = spyk({ t: DiffedStockUpdate -> /* nop */ })
         dataStore.observeDiffFilteredStocks.subscribe(nopConsumer)

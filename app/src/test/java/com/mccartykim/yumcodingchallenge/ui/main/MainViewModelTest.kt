@@ -2,14 +2,13 @@ package com.mccartykim.yumcodingchallenge.ui.main
 
 import com.mccartykim.yumcodingchallenge.model.StockListing
 import com.mccartykim.yumcodingchallenge.ui.main.MainViewModel.Companion.chainPredicates
-import io.mockk.mockk
 import org.assertj.core.api.AssertionsForClassTypes.assertThat
 import org.junit.Test
 
 
 class MainViewModelTest {
 
-    val fakeCompany = StockListing(id = "FOO", name = "Foo", price = 900.00, companyType = listOf("Tech", "Fake"), priceDiff = 15.00)
+    private val fakeCompany = StockListing(id = "FOO", name = "Foo", price = 900.00, companyType = listOf("Tech", "Fake"), priceDiff = 15.00)
 
     @Test
     fun `filterStockByPrefix - Should create stock filter from strings based on prefix`() {
